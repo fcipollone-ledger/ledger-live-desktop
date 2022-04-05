@@ -57,8 +57,7 @@ import { relaunchOnboarding } from "~/renderer/actions/onboarding";
 export const AnimationWrapper: ThemedComponent<{ modelId?: DeviceModelId }> = styled.div`
   width: 600px;
   max-width: 100%;
-  height: ${p => (p.modelId === "blue" ? 300 : 200)}px;
-  padding-bottom: ${p => (p.modelId === "blue" ? 20 : 0)}px;
+  padding-bottom: 20px;
   align-self: center;
   display: flex;
   align-items: center;
@@ -284,11 +283,15 @@ export const renderRequiresAppInstallation = ({ appNames }: { appNames: string[]
 };
 
 export const InstallingApp = ({
+  modelId,
+  type,
   appName,
   progress,
   request,
   analyticsPropertyFlow = "unknown",
 }: {
+  modelId: DeviceModelId,
+  type: "light" | "dark",
   appName: string,
   progress: number,
   request: any,
@@ -296,6 +299,7 @@ export const InstallingApp = ({
 }) => {
   const currency = request?.currency || request?.account?.currency;
   const appNameToTrack = appName || request?.appName || currency?.managerAppName;
+  const cleanProgress = progress ? Math.round(progress * 100) : null;
   useEffect(() => {
     const trackingArgs = [
       "In-line app install",
@@ -306,15 +310,9 @@ export const InstallingApp = ({
   return (
     <Wrapper id="deviceAction-loading">
       <Header />
-      <ProgressWrapper>
-        {progress ? (
-          <ProgressCircle size={58} progress={progress} />
-        ) : (
-          <Rotating size={58}>
-            <ProgressCircle hideProgress size={58} progress={0.06} />
-          </Rotating>
-        )}
-      </ProgressWrapper>
+      <AnimationWrapper modelId={modelId}>
+        <Animation animation={getDeviceAnimation(modelId, type, "installLoading")} />
+      </AnimationWrapper>
       <Footer>
         <Title>
           <Trans i18nKey="DeviceAction.installApp" values={{ appName }} />
@@ -322,6 +320,7 @@ export const InstallingApp = ({
         <SubTitle>
           <Trans i18nKey="DeviceAction.installAppDescription" />
         </SubTitle>
+        {cleanProgress ? <Title>{`${cleanProgress}%`}</Title> : null}
       </Footer>
     </Wrapper>
   );
