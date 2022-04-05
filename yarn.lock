@@ -2897,7 +2897,7 @@
     bignumber.js "^9.0.1"
     json-rpc-2.0 "^0.2.16"
 
-"@ledgerhq/live-common@https://github.com/LedgerHQ/ledger-live-common.git#LL-8236_add-checkQuote-function":
+"@ledgerhq/live-common@https://github.com/LedgerHQ/ledger-live-common.git#80db60c91b24db21b7886f1a9210f7cd7daba73f":
   version "21.34.0"
   resolved "https://github.com/LedgerHQ/ledger-live-common.git#80db60c91b24db21b7886f1a9210f7cd7daba73f"
   dependencies:
